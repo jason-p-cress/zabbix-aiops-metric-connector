@@ -1,0 +1,24 @@
+{
+    "fields": [
+        { "name":  "deviceId",      "type": "int"},
+        { "name":  "deviceName",    "type": "string"},
+        { "name":  "deviceIp",      "type": "string"},
+        { "name":  "peerId",        "type": "int"},
+        { "name":  "objectId",      "type": "int"},
+        { "name":  "objectName",    "type": "string"},
+        { "name":  "objectDesc",    "type": "string"},
+        { "name":  "pluginId",      "type": "int"},
+        { "name":  "pluginName",    "type": "string"},
+        { "name":  "indicatorId",   "type": "int"},
+        { "name":  "indicatorName", "type": "string"},
+        { "name":  "format",        "type": "int"},
+        { "name":  "value",         "type": "string"},
+        { "name":  "time",          "type":  "double"},
+        { "name":  "clusterName",   "type": "string"},
+        { "name":  "peerIp",        "type": "string"},
+        { "name":  "objectType",    "type": "string"},
+        { "name":  "units",         "type": "string"}
+    ],
+    "name": "databusmsg",
+    "type": "record"
+}

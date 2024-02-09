@@ -1,0 +1,100 @@
+############################
+# SevOne configuration items
+############################
+
+# sevOneKafkaDataFormat is configured in the SevOne Data Bus configuration. It will be either "Avro" or "JSON". Defaults to Avro.
+#sevOneKafkaDataFormat = "Avro"
+
+sevOneKafkaDataFormat = "JSON"
+
+# sevOneKafkaTopicName is "sdb" by default. If you are sending to an alternate Kafka topic, set this value appropriately.
+sevOneKafkaTopicName = "sdb"
+
+# sevOneKafkaServers - enter hostname/IP addresses and ports of SevOne kafka bootstrap servers. Separate multiple servers by comma. Example: "sevonedbhost1:9092,sevonedbhost2:9092"
+sevOneKafkaServers = "localhost:9092"
+
+# sevOneKafkaSSL - "true" if SSL is required, "false" if SSL is not enabled. If SSL is required, ensure that the conf/sevone-kafka-ssl.props is configured properly with CA certificate, server certificate, and key file
+sevOneKafkaSSL = "false"
+
+#########################################################################
+# Predictive Insights / Metric Manager / Watson AIOPs configuration items
+#########################################################################
+
+# (not implemented yet)
+# watsonProductTarget - either 'aiops' or 'pi'. Use 'pi' for Predictive Insights, or 'aiops' for Metric Anomaly Detection (MAD) on AI Manager, AIOps,  or NOI
+watsonProductTarget = "aiops"
+
+# (not implemented yet - currently only supports kafka)
+# publishType - either 'kafka' to publish to the kafka topic of AI Manager/NOI/Predictive Insights REST mediation utility kafka, or "rest" so send to the metrics REST api for AIMgr/NOI/PI REST mediation utility
+# "rest" publish type is not implemented currently
+publishType = "rest" 
+
+# watsonKafkaServers - FOR PI ONLY: enter hostname/IP addresses and ports of the PI Kafka bootstrap servers. Separate multiple servers by comma. Example: "waiopskafkahost1:9092,waiopskafkahost2:9092
+# ignored if publishType = "rest"
+watsonKafkaServers = "watsonserver:9092"
+
+# watsonKafkaTopicName - the topic name of the configured kafka. Typically 'metrics'
+# ignored if publishType = "rest"
+watsonKafkaTopicName = "metrics"
+
+# watsonKafkaSSL - "true" if ssl is required, "false" if SSL is not enabled. If SSL is required, ensure that the conf/watson-kafka-ssl.props is configured properly
+# ignored if publishType = "rest"
+watsonKafkaSSL = "false"
+
+# watsonMetricGroup - the metric group name used when submitting metrics. Defaults to 'sevone'. Only change this if you have a good reason.
+watsonMetricGroup = "zabbix"
+
+# watsonTopicName - the name of the Predictive Insights topic that was created to ingest Kafka/REST metrics... only applicable to Predictive Insights target 
+# ignored if watsonProductTarget = "aiops"
+watsonTopicName = "ZABBIX"
+
+# watsonTopicAggInterval - The aggregation interval of the watson topic IN MINUTES. Defaults to 5. This is not strictly required to be set 
+# correctly, but will give more
+# accurate information regarding the number of metrics that are collected per interval, which is useful for PI sizing. If 'watsonProductTarget' is 'watson', the default is 5 minutes
+watsonTopicAggInterval = 5
+
+# watsonTenantId - the TenantId of the AIOps installation. Only change this if it has been customized
+# This property is ignored if watsonProductTarget = "pi"
+watsonTenantId = "cfd95b7e-3bc7-4006-a4a8-a73a79c71255"
+
+# watsonMetricRoute - this is the exposed route to the metrics API for Metric Anomaly Detection
+# This property is ignored if watsonProductTarget = "pi"
+watsonRestRoute = "cpd-ibm-aiops.apps.{OC_CLUSTER_NAME}.{CLUSTER_DOMAIN_PREFIX}.{CLUSTER_TERMINAL_DOMAIN}/aiops/api/app/metric-api/v1/metrics"
+
+#watsonUser - the username of the user who generated the API that will be used
+watsonUser = "admin"
+
+# watsonApiKey is required to send to Metric Anomaly Detection
+watsonApiKey = "xxxxxxxxxxxxxxx"
+
+# The next three configuration properties are needed for the PI rest mediation utility. If authentication is rquired, set restMediationServiceAuthentication to "true" and add the username and password configured in the 
+# metric-api-service.yaml 
+# These are ignored if watsonProductTarget = "aiops"
+restMediationServiceAuthentication = "true"
+restMediationServiceUsername = "system"
+restMediationServicePassword = "pi-rest-mediation-password"
+
+# Protocol, hostname, and port of the PI rest mediation service as configured in 'metric-api-service.yaml'
+# These properties are ignored if watsonProductTarget = "aiops"
+restMediationServiceProtocol = "http"
+restMediationServiceHost = "localhost"
+restMediationServicePort = "8197"
+
+###########################
+# Extended logging options:
+###########################
+
+# logUniqueIndicators - this will log every unique indicator that has been collected in the last interval. Useful to determine if any particular metrics are missing at certain intervals
+# WARNING: Only use this in troubleshooting. It can potentially generate a lot of log messages
+logUniqueIndicators = "false"
+
+# logUniqueResources - this will log every unique resource that has been collected every interval. Useful to determine if any resources are missing at any intervals
+# WARNING: Only use this in troubleshooting. It can potentially generate a lot of log messages
+logUniqueResources = "false"
+
+# Logging level - only supports "DEBUG" or "INFO"
+loggingLevel = "DEBUG"
+
+# Log raw JSON as being passed to Watson/PI
+logRawJson = "false"
+

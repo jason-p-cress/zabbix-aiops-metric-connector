@@ -1,0 +1,8 @@
+# watsonSSLCaLocation: pem file that contains the root ca certificate to be used for Kafka SSL communication
+watsonSSLCaLocation = "/path/to/rootcert.pem"
+# watsonSSLCertificateLocation: pem file that contains the server certificate to be used for Kafka SSL communication
+watsonSSLCertificateLocation = "/path/to/servercert.pem"
+# watsonSSLKeyLocation: pem file that contains the private key to be used for Kafka SSL communication
+watsonSSLKeyLocation = "/path/to/privatekey.pem"
+
+

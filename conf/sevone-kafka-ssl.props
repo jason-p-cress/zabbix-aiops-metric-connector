@@ -1,0 +1,8 @@
+# sevoneSSLCaLocation: pem file that contains the root ca certificate to be used for Kafka SSL communication
+sevOneSSLCaLocation = "/u01/IBM/sevone-watson-datachannel-main/ssl/sevone/rootcert.pem"
+# sevoneSSLCertificateLocation: pem file that contains the server certificate to be used for Kafka SSL communication
+sevOneSSLCertificateLocation = "/u01/IBM/sevone-watson-datachannel-main/ssl/sevone/servercert.pem"
+# sevoneSSLKeyLocation: pem file that contains the private key to be used for Kafka SSL communication
+sevOneSSLKeyLocation = "/u01/IBM/sevone-watson-datachannel-main/ssl/sevone/privatekey.pem"
+
+
