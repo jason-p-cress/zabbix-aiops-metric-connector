@@ -328,27 +328,33 @@ def translateToWatsonMetric(event_dict):
          waiopsMetric = dict()
          waiopsMetric["attributes"] = dict()
          waiopsMetric["metrics"] = dict()
-         if("value" in event_dict):
-            waiopsMetric["metrics"][event_dict["name"]] = float(event_dict["value"])
-         else:
-            logging.info("WARNING: payload is missing 'name' field. Will not process metric. JSON: " + json.dumps(event_dict) )
-            return("NULL")
          if("host" in event_dict["host"]):
             waiopsMetric["attributes"]["node"] = event_dict["host"]["host"]
          else:
             logging.info("WARNING: payload is missing host field. Will not process metric. JSON: " + json.dumps(event_dict) )
          if("item_tags" in event_dict):
             foundComponentTag = 0
+            foundMetricTag = 0
             component = ""
+            metricname = ""
             for tag in event_dict["item_tags"]:
-               if tag["tag"] == "component":
+               logging.debug("evaluating tag: " + tag["tag"])
+               if tag["tag"] == "KafkaSubcomponent":
                   component = tag["value"]
                   foundComponentTag = 1
-            if(foundComponentTag !=1 ):
-               logging.info("No 'component' tag found for the following metric JSON entry. Will not process metric: " + json.dumps(event_dict))
+               if tag["tag"] == "KafkaMetric":
+                  metricname = tag["value"]
+                  foundMetricTag = 1
+            if(foundComponentTag !=1 or foundMetricTag != 1):
+               logging.info("Missing either the metric tag or component found for the following metric JSON entry. Will not process metric: " + json.dumps(event_dict))
                return("NULL")
          else:
             logging.info("No 'item_tags' found in the payload. Will not process this metric. JSON: " + json.dumps(event_dict))
+         if("value" in event_dict):
+            waiopsMetric["metrics"][metricname] = float(event_dict["value"])
+         else:
+            logging.info("WARNING: payload is missing 'name' field. Will not process metric. JSON: " + json.dumps(event_dict) )
+            return("NULL")
          waiopsMetric["attributes"]["component"] = component
          waiopsMetric["attributes"]["group"] = watsonMetricGroup
          if(event_dict["name"] in counterMetrics):
@@ -362,6 +368,7 @@ def translateToWatsonMetric(event_dict):
          waiopsGroup = {}
          waiopsGroup["groups"] = []
          waiopsGroup["groups"].append(waiopsMetric)
+         logging.debug("posting metric: " + json.dumps(waiopsGroup, indent=4))
          return(waiopsGroup)
       except Exception as error:
          logging.info("An exception occurred: " + error)
