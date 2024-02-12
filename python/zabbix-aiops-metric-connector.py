@@ -360,7 +360,8 @@ def translateToWatsonMetric(event_dict):
          if(event_dict["name"] in counterMetrics):
             waiopsMetric["attributes"]["accumulators"] = event_dict["name"]
          if("clock" in event_dict):
-            waiopsMetric["timestamp"] = int(event_dict["clock"] * 1000)
+            ts = str(int(event_dict["clock"] * 1000))
+            waiopsMetric["timestamp"] = ts
          else:
             logging.info("WARNING: payload is missing 'clock' field. Will not process metric. JSON: " + json.dumps(event_dict) )
          waiopsMetric["tenantID"] = watsonTopicName
@@ -368,7 +369,7 @@ def translateToWatsonMetric(event_dict):
          waiopsGroup = {}
          waiopsGroup["groups"] = []
          waiopsGroup["groups"].append(waiopsMetric)
-         logging.debug("posting metric: " + json.dumps(waiopsGroup, indent=4))
+         #logging.debug("posting metric: " + json.dumps(waiopsGroup, indent=4))
          return(waiopsGroup)
       except Exception as error:
          logging.info("An exception occurred: " + error)
